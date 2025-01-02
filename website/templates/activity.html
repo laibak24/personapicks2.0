@@ -1,0 +1,124 @@
+{% extends 'base.html' %}  
+{% load static %}
+{% block title %}Activity{% endblock %}  
+
+{% block content %} 
+{% include 'navbar.html' %}
+<style>
+    @font-face {
+        font-family: myFont;
+        src: url("static/fonts/SpaceComics.ttf");
+    }
+
+    @font-face {
+        font-family: textfont;
+        src: url("static/fonts/AUBREY1__.TTF");
+    }
+
+    @font-face {
+        font-family: bodyFont;
+        src: url("static/fonts/Times New Romance.ttf");
+    }
+
+    body {
+        background: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding-top: 80px; /* Adjusted padding to give space for the navbar */
+    }
+
+    /* Activity Log Section */
+    .activity-log {
+        margin-top: 100px; /* Offset for navbar */
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-height: 500px; /* Fixed max height */
+        overflow-y: auto; /* Scrollable if content overflows */
+        color: #333;
+    }
+
+    /* Activity Log Title */
+    .activitylog1 h4 {
+        font-size: 1.8rem;
+        font-family: 'Times New Roman', Times, serif;
+        color: #604568;
+        margin-bottom: 15px;
+        text-align: center;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 5px;
+    }
+
+    /* Activity List Styling */
+    .activitylog1 ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .activitylog1 li {
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Adds space between the content of each log */
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .activitylog1 li:hover {
+        background-color: #ececec;
+        transform: translateX(5px); /* Slight hover effect */
+    }
+
+    /* Highlight Username */
+    .activitylog1 li strong {
+        color: #604568;
+        font-weight: bold;
+    }
+
+    /* Action Text */
+    .activitylog1 li small {
+        color: #888;
+        font-size: 0.9rem;
+        align-self: flex-end;
+    }
+
+    /* No Activity Message */
+    .activitylog1 p {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+    }
+
+</style>
+    <div class="activity-log">
+        <!-- Activity Log Section -->
+        <div class="activitylog1">
+            <h4>Recent Activity</h4>
+            {% if activity_feed %}
+            <ul>
+                {% for activity in activity_feed %}
+                <li>
+                    <strong>{{ activity.user.username }}</strong> {{ activity.action }}
+                    <small>{{ activity.created_at|date:"F j, Y, g:i A" }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No recent activity.</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Refer an Item</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="referral_to">Select User:</label>
+    <select name="referral_to" id="referral_to" required>
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="item_type">Select Item Type:</label>
+    <select name="item_type" id="item_type" required>
+        <option value="movie">Movie</option>
+        <option value="book">Book</option>
+    </select>
+
+    <div id="movie-list" style="display: none;">
+        <label for="item_id_movie">Select a Movie:</label>
+        <select name="item_id" id="item_id_movie">
+            {% for movie in movies %}
+                <option value="{{ movie.id }}">{{ movie.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div id="book-list" style="display: none;">
+        <label for="item_id_book">Select a Book:</label>
+        <select name="item_id" id="item_id_book">
+            {% for book in books %}
+                <option value="{{ book.id }}">{{ book.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit">Refer</button>
+</form>
+
+<script>
+    const itemTypeField = document.getElementById('item_type');
+    const movieList = document.getElementById('movie-list');
+    const bookList = document.getElementById('book-list');
+
+    itemTypeField.addEventListener('change', function () {
+        if (this.value === 'movie') {
+            movieList.style.display = 'block';
+            bookList.style.display = 'none';
+        } else if (this.value === 'book') {
+            bookList.style.display = 'block';
+            movieList.style.display = 'none';
+        } else {
+            movieList.style.display = 'none';
+            bookList.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

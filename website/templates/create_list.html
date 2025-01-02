@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create New List{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<style>
+    body {
+        background: #e9ecef;
+        margin: 0;
+        padding: 100px;
+        font-family: Arial, sans-serif; /* Consistent formal font for entire page */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 500px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #2f3e46;
+        margin-bottom: 20px;
+        font-size: 1.8rem; /* Slightly larger title for emphasis */
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    form button {
+        background-color: #604568;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+        background-color: #c59bbb;
+    }
+
+    a {
+        text-decoration: none;
+        color: #604568;
+        margin-top: 20px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    a:hover {
+        color: #2f3e46;
+    }
+
+    .form-section {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .form-section input, .form-section select, .form-section textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+    }
+
+    .form-section input:focus, .form-section select:focus, .form-section textarea:focus {
+        outline: none;
+        border-color: #604568;
+    }
+</style>
+
+<div class="form-container">
+    <h1>Create New List</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-section">
+            {{ form.as_p }}
+        </div>
+        <button type="submit">Create List</button>
+    </form>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+
+{% endblock %}

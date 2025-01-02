@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+{% load static %}
+{% block content %}
+<style>
+    .navbar {
+        background-color: #fff;
+        box-shadow: 0 0 8px rgb(180, 178, 178);
+        font-family: Arial, sans-serif;
+        padding: 15px 30px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .logo img {
+        width: 100px;
+        height: 100%;
+    }
+
+    ul {
+        display: flex;
+        list-style: none;
+        gap: 10px;
+    }
+
+    button {
+        background-color: #604568;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    button a {
+        color: #fff;
+        font-weight: bold;
+        font-size: 15px;
+        text-decoration: none;
+    }
+
+    button:hover {
+        text-decoration: none;
+        background-color: #c59bbb;
+        box-shadow: 0 0 10px 3px #fff;
+        color: #fff;
+    }
+
+    button a:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+    .bell-icon {
+        width: 50px; /* Increased size */
+        height: 50px;
+        cursor: pointer;
+        transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition */
+    }
+    
+    .bell-icon:hover {
+        transform: scale(1.1); /* Slightly enlarges the icon */
+        filter: brightness(1); /* Brightens the icon */
+    }
+    
+    .activity-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+    
+    .activity-link:hover {
+        filter: brightness(1.2);
+    }    
+
+</style>
+
+<div>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'page_images/logo.png' %}" alt="Logo">
+        </div>
+        <ul>
+            <button><a href="{% url 'about' %}">About</a></button>
+            <button><a href="{% url 'top_picks' %}">Top Picks</a></button>
+            <button><a href="{% url 'dashboard' %}">Dashboard</a></button>
+            <button><a href="{% url 'connect' %}">Connect</a></button>
+            <button><a href="{% url 'logout' %}">Logout</a></button>
+            <!-- Bell Icon for Activity -->
+            <button class="activity-link">
+                <a href="{% url 'activity' %}">
+                    <img src="{% static 'page_images/bell.png' %}" alt="Activity" class="bell-icon">
+                </a>
+            </button>
+        </ul>
+    </nav>
+</div>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="other-dashboard-container">
+    <!-- Header and User Info Section -->
+    <div class="user-header">
+        <h1>{{ selected_user.username }}'s Dashboard</h1>
+        <h3>MBTI Type: {{ selected_user.mbti_type.mbti_type|default:"N/A" }}</h3>
+        
+        <!-- User Avatar and Bio -->
+        <div class="user-avatar">
+            <img src="{% static 'avatars/' %}{{ selected_user.mbti_type.mbti_type|default:'default' }}.jpg" alt="{{ selected_user.username }}" class="mbti-avatar">
+        </div>
+        <div class="user-bio">
+            <h4>About {{ selected_user.username }}</h4>
+            <p>{{ selected_user.bio|default:"No bio available." }}</p>
+        </div>
+        
+        <!-- Follower and Following Counts -->
+        <div class="social-stats">
+            <div class="followers">
+                <strong>Followers:</strong> {{ followers_count }}
+            </div>
+            <div class="following">
+                <strong>Following:</strong> {{ following_count }}
+            </div>
+        </div>
+
+        <!-- Follow/Unfollow Button -->
+        <form action="{% url 'follow_user' selected_user.user_id %}" method="post" class="follow-form">
+            {% csrf_token %}
+            {% if user in selected_user.followers.all %}
+                <button type="submit" class="btn btn-secondary">Unfollow</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Follow</button>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Compatibility Score Section -->
+    <div class="compatibility-section">
+        <h3>Compatibility Score</h3>
+        {% if compatibility_score == 0 %}
+            <div class="alert alert-warning">
+                <strong>Warning:</strong> Compatibility cannot be calculated due to missing MBTI types for one or both users.
+            </div>
+        {% else %}
+            <p>Your Compatibility with {{ selected_user.username }}: {{ compatibility_score|floatformat:2 }}%</p>
+        {% endif %}
+    </div>
+
+    <!-- Watchlist Section -->
+    <div class="list-section">
+        <h3>Watchlist</h3>
+        <ul class="list-group">
+            {% for item in watchlist %}
+                <li class="list-group-item">{{ item.title }}</li> <!-- Accessing the title directly from the dictionary -->
+            {% empty %}
+                <li class="list-group-item text-muted">No movies in the watchlist.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Readlist Section -->
+    <div class="list-section">
+        <h3>Readlist</h3>
+        <ul class="list-group">
+            {% for item in readlist %}
+                <li class="list-group-item">{{ item.title }}</li> <!-- Accessing the title directly from the dictionary -->
+            {% empty %}
+                <li class="list-group-item text-muted">No books in the readlist.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Personalized Lists Section -->
+    <div class="list-section">
+        {% for p_list in personalized_lists %}
+            <h3>{{ p_list.list_name }}</h3>
+            <p>Created at: {{ p_list.created_at }}</p>
+    
+            <h4>Movies:</h4>
+            <ul>
+                {% for movie in p_list.movies %}
+                    <li>{{ movie.title }} - Rating: {{ movie.rating }} - Review: {{ movie.review }}</li>
+                {% empty %}
+                    <li>No movies in this list.</li>
+                {% endfor %}
+            </ul>
+    
+            <h4>Books:</h4>
+            <ul>
+                {% for book in p_list.books %}
+                    <li>{{ book.title }} - Rating: {{ book.rating }} - Review: {{ book.review }}</li>
+                {% empty %}
+                    <li>No books in this list.</li>
+                {% endfor %}
+            </ul>
+        {% empty %}
+            <p>No personalized lists available.</p>
+        {% endfor %}
+    </div>
+    </div>
+
+
+<style>
+/* General Container */
+.other-dashboard-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header Section */
+.user-header {
+    margin-top: 100px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-header h1 {
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.user-header h3 {
+    color: #555;
+}
+
+/* Avatar Section */
+.user-avatar img {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    margin: 15px auto;
+}
+
+/* User Bio */
+.user-bio {
+    margin-top: 15px;
+    color: #666;
+}
+
+/* Social Stats */
+.social-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.social-stats div {
+    font-size: 16px;
+}
+
+/* Compatibility Section */
+.compatibility-section {
+    background: #987D9A;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* List Section */
+.list-section {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.list-section h3 {
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.list-group-item {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.list-group-item.text-muted {
+    color: #aaa;
+}
+
+/* Follow Button */
+.follow-form {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #604568;
+    color: white;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #a68cae;
+}
+.btn-secondary {
+    background-color: #604568;
+    color: white;
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .social-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .list-section {
+        padding: 10px;
+    }
+}
+</style>
+{% endblock %}

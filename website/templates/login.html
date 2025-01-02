@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% load static %}
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #e9ecef; /* Purple background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif; /* Consistent font */
+  }
+
+  .box-left {
+    color: #8e4d76; /* Purple text */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .box-left a {
+    text-decoration: none; /* Remove underline for links inside .box-left */
+  }
+
+  .box-left a:hover {
+    text-decoration: none; /* Ensure no underline on hover as well */
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    width: 35%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-header h3 {
+    color: #604568;
+    text-align: center;
+    font-size: 24px; /* Larger font for the title */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .form-body {
+    flex-grow: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center-align fields */
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .form-group label {
+    color: #604568;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px; /* Consistent font size */
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px; /* Consistent font size */
+    color: #333; /* Dark text color for better readability */
+  }
+
+  .text-danger {
+    color: #ff6f61;
+    font-size: 14px; /* Consistent font size */
+    text-align: left;
+    margin-top: 5px;
+  }
+
+  .btn-custom {
+    width: 100%;
+    padding: 12px;
+    background-color: #604568;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Consistent font size */
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px; /* Moves the button slightly lower */
+  }
+
+  .btn-custom:hover {
+    background-color: #c59bbb;
+  }
+
+  .card-footer {
+    margin-top: 20px; /* Adds spacing */
+    text-align: center;
+    font-size: 18px; /* Increased font size */
+    color: #555; /* Neutral text color */
+  }
+
+  .card-footer a {
+    color: #80567e;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 18px; /* Increased font size */
+  }
+
+  .card-footer a:hover {
+    color: #a25d93; /* Slightly brighter on hover */
+  }
+
+  .icon-container {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    z-index: 10; /* Ensure it appears above other elements */
+  }
+
+.add-button i {
+  color: #604568; /* Icon color */
+  font-size: 1.5rem; /* Icon size */
+  text-decoration: none;
+}
+
+.add-button:hover i {
+  color: #c59bbb; /* Hover color */
+}
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      width: 90%;
+      border-radius: 0; /* Remove border radius for mobile for a clean layout */
+    }
+
+    .box {
+      width: 100%;
+      height: auto;
+    }
+
+    .box-left,
+    .box-right {
+      width: 100%;
+      height: auto;
+    }
+  }
+</style>
+
+<div class="icon-container">
+  <a href="{% url 'home' %}" class="add-button">
+    <i class="fa-solid fa-house"></i>
+  </a>
+</div>
+<div class="container">
+  <!-- Left Box with Form -->
+  <div class="box-left">
+    <div class="card">
+      <div class="card-header">
+        <h3>Login</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{% url 'login' %}" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="username">Email</label>
+            <input type="email" id="username" name="username" placeholder="Enter email" required>
+            {% for error in form.username.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            {% for error in form.password.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-group">
+            <button type="submit" class="btn-custom">Login</button>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Sign up here</a>.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

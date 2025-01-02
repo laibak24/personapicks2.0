@@ -1,0 +1,593 @@
+{% extends 'base.html' %}  
+{% load static %}
+{% block title %}Dashboard{% endblock %}  
+
+{% block content %} 
+{% include 'navbar.html' %}
+<style>
+    @font-face {
+        font-family: myFont;
+        src: url("static/fonts/SpaceComics.ttf");
+    }
+
+    @font-face {
+        font-family: textfont;
+        src: url("static/fonts/AUBREY1__.TTF");
+    }
+
+    @font-face {
+        font-family: bodyFont;
+        src: url("static/fonts/Times New Romance.ttf");
+    }
+
+    body {
+        background: #e9ecef;
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+        margin-top: 120px; /* Offset for navbar */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background-color: #e9ecef;
+    }
+
+    .welcome-text {
+        background: url("{% static 'page_images/header.jpg' %}") no-repeat center center/cover;
+        color: #2f3e46;
+        font-weight: bold ;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        width: 80%;
+        height: 200px;
+        font-size: 1.5rem;
+        border-radius: 20px;
+        overflow: hidden;
+        justify-content: center;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-left: 3%;
+    }
+    .overlay {
+        margin-top: 140px; /* Offset for navbar */
+        background-color: rgba(255, 255, 255, 0.9);
+        position: absolute;
+        inset: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-left: 3.9%;
+        width: 78.5%;
+        height: 200px;
+        display: flex;
+        font-weight: bold;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        border-radius: 20px;
+    }
+
+
+
+    .icon-section {
+        display: flex;
+        gap: 20px;
+    }
+
+    .icon-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .link {
+        text-decoration: none;
+        color: #604568;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: 0 0 8px rgb(180, 178, 178);
+        border-radius: 15px;
+        position: relative;
+        transition: 0.4s;
+    }
+
+    .link:hover {
+        text-decoration: none; /* Prevent underline on hover */
+        transform: rotate(45deg);
+    }
+
+    .link i {
+        font-size: 2.5rem;
+        transition: all 0.4s;
+    }
+
+    .link:hover i.film {
+        color: #c59bbb;
+    }
+
+    .link:hover i.book {
+        color: #c59bbb;
+    }
+
+    .main1{
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 5%;
+        margin-top: 20px;
+        margin-left: 2% ;
+        margin-right: 3%;
+    }
+    .card {
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 5%;
+    }
+
+    /* Bio Card */
+    .bio-card {
+        text-align: center;
+    }
+    .clock-card {
+        text-align: center;
+        height: 50%;
+    }
+    #clock {
+        font-size: 48px;
+        margin: 0;
+        color: #604568;
+    }
+    .user-avatar img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        margin: 15px auto;
+    }
+
+    #date {
+        font-size: 16px;
+        color: #777;
+    }
+
+    /* Stats Card */
+    .stats-card {
+        text-align: center;
+    }
+
+    .stats-card h3 {
+        margin-bottom: 10px;
+    }
+
+    .edit-buttton{
+        background-color: #604568;
+        color: #fff
+    }
+    .edit-button {
+            color: white; /* Set text color to white */
+        
+    }
+    /* Main Content */
+
+    .list-section {
+        background: #fff;
+        border-radius: 15px;
+        color: #fff;
+        padding: 20px;
+        width: 90%;
+        box-shadow: 0 0 8px rgb(180, 178, 178);
+        margin-bottom: 5%;
+    }
+
+    .list-section h3 {
+        color: #604568;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .list-group-item {
+        background: #fff;
+        color: rgb(12, 11, 11);
+        padding: 10px;
+        margin-bottom: 5px;
+        display: flex; /* Flexbox for alignment */
+        justify-content: space-between;
+        align-items: center; /* Align vertically towards trash icon */
+    }
+
+    .list-group-item > div {
+        flex-grow: 1; /* Let the text container take remaining space */
+        margin-right: 10px; /* Add spacing between text and dropdown */
+    }
+
+    .list-group-item form {
+        margin: 0;
+        display: inline-block; /* Ensure forms don't stretch */
+        margin-left: 10px; /* Add space between forms */
+    }
+
+    /* Button Styling */
+    .delete-button i {
+        border-radius: 15px; /* Rounded corners */
+        background-color: transparent;
+        font-size: 1.5rem;
+        border-radius: 15px;
+        color: #fff; /* Rounded corners */
+        border: none; /* Remove border */
+        padding: 5px 12px; /* Add some padding */
+        text-align: right; /* Center the text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Keep buttons inline */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+    }
+    .add-button i {
+        color: #604568; /* White text */
+        font-size: 1.5rem;
+        border-radius: 15px; /* Rounded corners */
+        border: none; /* Remove border */
+        padding: 5px 12px; /* Add some padding */
+        text-align: right; /* Center the text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Keep buttons inline */
+    }
+
+    .delete-button:hover {
+        text-decoration: none;
+        color: #fff;
+        background-color: #c59bbb; /* Lighten on hover */
+        transform: translateY(-3px); /* Slight lift on hover */
+    }
+    .add-button:hover {
+        text-decoration: none;
+        color: #fff;
+        transform: translateY(-3px); /* Slight lift on hover */
+    }
+    .delete-button {
+        background-color: #604568; /* Dark Purple Background */
+        color: #fff; /* White text */
+        border: none; /* Remove border */
+        border-radius: 15px; /* Rounded corners */
+        padding: 5px 12px; /* Add some padding */
+        text-align: right; /* Center the text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Keep buttons inline */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+    }
+    .add-buttonM{
+        background-color: #604568; /* Dark Purple Background */
+        color: #fff; /* White text */
+        border: none; /* Remove border */
+        border-radius: 15px; /* Rounded corners */
+        padding: 5px 12px; /* Add some padding */
+        text-align: right; /* Center the text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Keep buttons inline */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+    }
+    .add-buttonM:hover {
+        text-decoration: none;
+        color: #fff;
+        background-color: #c59bbb; /* Lighten on hover */
+        transform: translateY(-3px); /* Slight lift on hover */
+    }
+    
+    .delete-button:hover {
+        background-color: #c59bbb; /* Darker red on hover */
+    }
+    
+    /* Button Icons */
+    .add-button i, .delete-button i {
+        margin-right: 3px; /* Add space between icon and text */
+    }
+    
+/* General List Section Styling */
+.list-section {
+    margin: 20px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.list-section h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.personalized-list-card {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.personalized-list-card h4 {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.created-at {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.media-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+    
+}
+
+.media-column {
+    flex: 1;
+}
+
+.media-list {
+    list-style: none;
+    padding: 0;
+}
+
+.media-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+.media-item strong {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.list-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.new_button{
+    color: #fff;
+}
+.new_button:hover{
+    color: #fff;
+    background-color: #c59bbb;
+}
+h5{
+    color: black;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+</style>
+
+<!-- Welcome Section -->
+<div class="welcome-section">
+    <!-- Welcome Text -->
+    <div class="welcome-text">
+        <div class="overlay">
+            <h1 class="dashboard-title">{{ username }}!</h1>
+            <p class="mbti">MBTI Type: <strong>{{ mbti_type }}</strong></p>
+        </div>
+    </div>
+    <!-- Icon Section -->
+    <div class="icon-section">
+        <div class="icon-container">
+            <a href="{% url 'movies' %}" class="link">
+                <i class="fa-solid fa-film film"></i>
+            </a>
+        </div>
+        <div class="icon-container">
+            <a href="{% url 'books' %}" class="link">
+                <i class="fa-solid fa-book-open book"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="main1">
+    <!-- left-column -->
+    <div class="left-column">
+        <!-- Social Stats -->
+        <div class="card stats-card">
+            <h3>Social Stats</h3>
+            <p><strong>{{ followers_count }}</strong> Followers</p>
+            <p><strong>{{ following_count }}</strong> Following</p>
+        </div>
+        <!-- Bio Section -->
+        <div class="card bio-card">
+            <h3>Bio</h3>
+            <p id="bio-text">{{ bio|default:"No bio added yet." }}</p>
+            <button id="edit-bio-btn" class="edit-button" onclick="toggleBioForm()">Update Bio</button>
+            <form id="edit-bio-form" action="{% url 'dashboard' %}" method="post" style="display: none;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="new_button">Save</button>
+                <button type="button" class="new_button" onclick="toggleBioForm()">Cancel</button>
+            </form>
+        </div>        
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+<!-- Watchlist Section -->
+<div class="list-section">
+    <h3>Your Watchlist</h3>
+    <ul class="list-group">
+        {% for item in watchlist %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ item.title }}</strong>
+                <small class="text-muted">({{ item.status|capfirst }})</small>
+            </div>
+            <!-- Form for updating the watchlist status -->
+            <form action="{% url 'update_watchlist_status' item.movie_id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <select name="status" class="form-control form-control-sm" onchange="this.form.submit()">
+                    <option value="not_started" {% if item.status == 'not_started' %}selected{% endif %}>Not Started</option>
+                    <option value="in_progress" {% if item.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="completed" {% if item.status == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </form>
+            <!-- Form for removing the item from the watchlist -->
+            <form action="{% url 'remove_from_watchlist' item.movie_id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm" style="background-color: #604568; border: none;">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </form>
+         
+        </li>
+        {% empty %}
+        <li class="list-group-item">No movies in your watchlist.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Readlist Section -->
+<div class="list-section">
+    <h3>Your Readlist</h3>
+    <ul class="list-group">
+        {% for item in readlist %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ item.title }}</strong>
+                <small class="text-muted">({{ item.status|capfirst }})</small>
+            </div>
+            <!-- Form for updating the readlist status -->
+            <form action="{% url 'update_readlist_status' item.book_id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <select name="status" class="form-control form-control-sm" onchange="this.form.submit()">
+                    <option value="not_started" {% if item.status == 'not_started' %}selected{% endif %}>Not Started</option>
+                    <option value="in_progress" {% if item.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="completed" {% if item.status == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </form>
+            <!-- Form for removing the item from the readlist -->
+            <form action="{% url 'remove_from_readlist' item.book_id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm" style="background-color: #604568; border: none;">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </form>
+        </li>
+        {% empty %}
+        <li class="list-group-item">No books in your readlist.</li>
+        {% endfor %}
+    </ul>
+</div><!-- Personalized Lists Section -->
+<div class="list-section">
+    <h3 class="list-heading">Your Personalized Lists
+    <a href="{% url 'create_list' %}" class="add-button">
+        <i class="fa-plus fa-trash"></i>
+    </a>
+    </h3>
+
+    {% for personalized_list in personalized_lists %}
+    <div class="personalized-list-card">
+        <h4 class="list-heading">{{ personalized_list.list_name }}
+            <form action="{% url 'delete_list' personalized_list.id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm" style="background-color: #604568; border: none;">                
+                    <i class="fa fa-trash"></i></button>
+            </form>
+        </h4>
+        <p class="created-at"><strong>Created:</strong> {{ personalized_list.created_at }}</p>
+
+        <!-- Display Movies and Books in a horizontal layout -->
+        <div class="media-section">
+            <!-- Movies Section -->
+            <div class="media-column">
+                <h5>Movies</h5>
+                <ul class="media-list">
+                    {% for movie in personalized_list.movies %}
+                    <li class="media-item">
+                        <strong>{{ movie.title }}</strong>
+                        <span>- Rating: {{ movie.rating }}</span><br>
+                        <span>Review: {{ movie.review|default:"No review added." }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="media-item">No movies added to this list.</li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'add_movie_to_list' personalized_list.id %}" class="add-buttonM">Add Movie</a>
+            </div>
+
+            <!-- Books Section -->
+            <div class="media-column">
+                <h5>Books</h5>
+                <ul class="media-list">
+                    {% for book in personalized_list.books %}
+                    <li class="media-item">
+                        <strong>{{ book.title }}</strong>
+                        <span>- Rating: {{ book.rating }}</span><br>
+                        <span>Review: {{ book.review|default:"No review added." }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="media-item">No books added to this list.</li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'add_book_to_list' personalized_list.id %}" class="add-buttonM">Add Book</a>
+            </div>
+        </div>
+
+    </div>
+    {% empty %}
+    <p>No personalized lists created yet.</p>
+    {% endfor %}
+</div>
+
+</div>
+<!-- Clock Section -->
+    <div class="card clock-card">
+        <h2 id="clock">--:--</h2>
+        <p id="date">Loading date...</p>
+        <div class="user-avatar">
+            <img src="{% static 'avatars/' %}{{ user.mbti_type.mbti_type }}.jpg" alt="{{ user.username }}" class="mbti-avatar">
+        </div>
+</div>
+<script>
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+        const date = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+        document.getElementById('clock').textContent = `${hours}:${minutes}`;
+        document.getElementById('date').textContent = `${day}, ${date}`;
+    }
+        function toggleBioForm() {
+            const form = document.getElementById('edit-bio-form');
+            const bioText = document.getElementById('bio-text');
+            const editButton = document.getElementById('edit-bio-btn');
+        
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                bioText.style.display = 'none';
+                editButton.style.display = 'none';
+            } else {
+                form.style.display = 'none';
+                bioText.style.display = 'block';
+                editButton.style.display = 'inline-block';
+            }
+        }        
+    // Update clock every second
+    setInterval(updateClock, 1000);
+    updateClock(); // Initialize clock immediately
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+{% load static %}
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #e9ecef; /* Purple background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif; /* Consistent font */
+  }
+  .box-right {
+    flex: 1; /* Same width as the left box */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Spacing for form layout */
+    padding: 20px; /* Space around content */
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #8e4d76;
+  }
+  .box-right a {
+    text-decoration: none; /* Remove underline for links inside .box-left */
+  }
+
+  .box-right a:hover {
+    text-decoration: none; /* Ensure no underline on hover as well */
+  }
+  .card {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    width: 35%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-header h3 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .btn-custom {
+    width: 100%;
+    padding: 10px;
+    background-color: #604568; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btn-custom:hover {
+    background-color: #c59bbb;
+  }
+  .icon-container {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  z-index: 10; /* Ensure it appears above other elements */
+}
+
+.add-button i {
+  margin-left: 30%;
+  color: #604568; /* Icon color */
+  font-size: 1.5rem; /* Icon size */
+  text-decoration: none;
+}
+
+.add-button:hover i {
+  color: #c59bbb; /* Hover color */
+}
+
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column; /* Stack boxes vertically */
+    }
+
+    .box {
+      width: 100%; /* Full width for smaller screens */
+    }
+
+    .box-left,
+    .box-right {
+      height: auto;
+    }
+  }
+</style>
+<div class="icon-container">
+  <a href="{% url 'home' %}" class="add-button">
+    <i class="fa-solid fa-house"></i>
+  </a>
+</div>
+
+<div class="container">
+  <!-- Right Box with Form -->
+  <div class="box-right">
+    <div class="card">
+      <div class="card-header">
+        <h3>Create Account</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <!-- Username -->
+          <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% for error in form.username.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% for error in form.email.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {% for error in form.password1.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {% for error in form.password2.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- MBTI Type -->
+          <div class="form-group">
+            {{ form.mbti_type.label_tag }}
+            {{ form.mbti_type }}
+            {% for error in form.mbti_type.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-group">
+            <button type="submit" class="btn-custom">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

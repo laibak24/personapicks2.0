@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="custom-container">
+    <!-- Header Section -->
+    <header class="header-section text-center">
+        <h1 class="main-heading">Welcome to PersonaPicks</h1>
+        <p class="subheading">Discover movies and books tailored to your personality type!</p>
+    </header>
+
+    <!-- Purpose Section -->
+    <section class="purpose-section text-center">
+        <h2 class="section-title">Our Purpose</h2>
+        <p>At PersonaPicks, we connect you to movies and books that align with your unique MBTI personality type. Whether you're an INTJ, ENFP, or any other type, our platform helps you find recommendations that truly resonate with you.</p>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works text-center">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-description">Follow these simple steps to get started:</p>
+        <div class="steps-container">
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="icon-circle">
+                    <img src="{% static 'page_images/icon1.jpg' %}" alt="Sign Up">
+                </div>
+                <h3 class="step-title">Step 1: Sign Up</h3>
+                <p class="step-description">Create your profile and select your MBTI personality type.</p>
+            </div>
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="icon-circle">
+                    <img src="{% static 'page_images/icon2.jpg' %}" alt="Get Recommendations">
+                </div>
+                <h3 class="step-title">Step 2: Get Recommendations</h3>
+                <p class="step-description">Receive personalized movie and book suggestions tailored to you.</p>
+            </div>
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="icon-circle">
+                    <img src="{% static 'page_images/icon3.jpg' %}" alt="Explore & Track">
+                </div>
+                <h3 class="step-title">Step 3: Explore & Track</h3>
+                <p class="step-description">Track your watchlist and connect with others for more inspiration.</p>
+            </div>
+        </div>
+    </section>
+<!-- Testimonials Section -->
+<div class="section text-center">
+    <h2 class="section-title">Voices of PersonaPicks</h2>
+    {% for feedback in feedbacks %}
+        <div class="testimonial mx-auto">
+            <p class="testimonial-text">"{{ feedback.message|truncatechars:150 }}"</p>
+            <div class="user">
+                <strong>- {{ feedback.feedback_giver_name }}</strong>
+            </div>
+            <small class="text-muted">{{ feedback.created_at|date:"F j, Y, g:i a" }}</small>
+        </div>
+    {% empty %}
+        <p class="no-feedback">No testimonials yet. Be the first to share your thoughts!</p>
+    {% endfor %}
+</div>
+
+<!-- Feedback Form Section -->
+<div class="section text-center mt-5">
+    <h2 class="section-title">We Value Your Thoughts!</h2>
+    <form method="post" class="feedback-form">
+        {% csrf_token %}
+        <textarea 
+            name="message" 
+            class="form-control" 
+            rows="5" 
+            placeholder="Write your feedback here..." 
+            required></textarea>
+        <button type="submit" class="btn btn-primary mt-3">Submit Feedback</button>
+    </form>
+</div>
+
+
+    <!-- Footer Section -->
+    <footer class="footer-section text-center">
+        <p>&copy; 2024 PersonaPicks. All rights reserved.</p>
+    </footer>
+</div>
+
+<style>
+    /* General Styling */
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f7f3fa;
+        color: #3c2c4d;
+    }
+
+    .custom-container {
+        padding: 20px;
+    }
+
+    /* Header Section */
+    .header-section {
+        padding: 60px 0;
+        background-color: #987D9A;
+        color: #fff;
+        margin-top: 100px;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .main-heading {
+        font-size: 3rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .subheading {
+        font-size: 1.2rem;
+    }
+
+    /* Section Titles */
+    .section-title {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 2.2rem;
+        color: #3c2c4d;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+
+    /* Purpose Section */
+    .purpose-section {
+        background-color: #ffffff;
+        padding: 50px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-top: 2%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+        padding: 60px 20px;
+        background-color: #f7f3fa; /* Light purple background */
+    }
+
+    .steps-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+    }
+
+    .step {
+        width: 30%;
+        text-align: center;
+    }
+
+    /* Icon Circle Styling */
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background-color: #3c2c4d; /* Dark purple background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .icon-circle img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .step-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #3c2c4d;
+    }
+
+    .step-description {
+        font-size: 0.9rem;
+        color: #5b476a;
+    }
+
+    /* Section Styling */
+    .section {
+        padding: 40px 20px;
+        margin: 20px auto;
+        max-width: 1000px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+        font-size: 2rem;
+        color: #604568;
+        margin-bottom: 15px;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .section p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #555;
+    }
+
+    /* Testimonials */
+    .testimonial {
+        margin: 20px auto;
+        padding: 20px;
+        border-left: 4px solid #604568;
+        background: #f9f9f9;
+        border-radius: 8px;
+        max-width: 700px; /* Center-align with narrower width */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'Times New Roman', Times, serif;
+    }
+    
+    .testimonial-text {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: #333;
+    }
+    
+    .testimonial .user {
+        margin-top: 10px;
+        font-style: italic;
+        font-size: 1rem;
+        color: #777;
+    }
+    
+    /* No Feedback Message */
+    .no-feedback {
+        font-size: 1rem;
+        color: #555;
+        margin-top: 10px;
+    }
+    
+    /* Feedback Form */
+    .feedback-form {
+        max-width: 700px; /* Restrict width */
+        margin: 0 auto; /* Center-align the form */
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Space between elements */
+    }
+    
+        .feedback-form .form-control {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            color: #3c2c4d;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+    
+        .feedback-form .form-control:focus {
+            border-color: #604568;
+            outline: none;
+            box-shadow: 0 0 5px rgba(96, 69, 104, 0.5);
+            background-color: #ffffff;
+        }
+    
+        .feedback-form .btn-primary {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #604568;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+    
+        .feedback-form .btn-primary:hover {
+            background-color: #503457;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px); /* Subtle hover lift effect */
+        }
+    
+        .feedback-form .btn-primary:active {
+            transform: translateY(0); /* Reset lift on click */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+    /* Feedback Form */
+    .feedback-form {
+        margin-top: 20px;
+        justify-content: space-between;
+    }
+
+    /* Feedback Form */
+
+    .feedback-form .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        font-size: 1rem;
+        border: 1px solid #0c0c0c;
+        border-radius: 5px;
+        color: #333;
+    }
+
+    .feedback-form .form-control:focus {
+        border-color: #604568;
+        outline: none;
+        box-shadow: 0 0 5px rgba(96, 69, 104, 0.3);
+    }
+
+    .btn-btn-primary{
+        margin-top: 10px;
+        background: #604568;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .btn-btn-primary:hover {
+        background: #503457;
+    }
+
+    /* Footer Section */
+    .footer-section {
+        padding: 20px;
+        background-color: #604568;
+        color: #fff;
+    }
+</style>
+{% endblock %}

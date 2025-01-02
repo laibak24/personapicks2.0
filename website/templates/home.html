@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Home - MBTI-Based Recommendations
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="main-content">
+        <img src="{% static 'page_images/girlreading.png' %}" alt="Character Image">
+    </div>
+
+    <div class="sidebar">
+        <div class="box-top">
+            <a href="{% url 'register' %}" class="sign-in-btn">Sign Up</a>
+            <a href="{% url 'login' %}" class="log-in-btn">Log In</a>
+        </div>
+
+        <div class="box middle">
+            <div class="mainpart">
+                <div class="logo">
+                    <img src="{% static 'page_images/logo.png' %}" alt="Logo">
+                </div>
+            </div>
+        </div>
+
+        <div class="box-bottom">
+            <div class="quiz-prompt">
+                <img src="{% static 'page_images/pointer.png' %}" alt="Take the Quiz" class="quiz-image">
+                <p class="quiz-text">Explore a world tailored to your MBTI type! <br><a href="https://www.16personalities.com" target="_blank" class="quiz-link">Take the quiz here</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    @font-face {
+        font-family: myFont;
+        src: url("{% static 'fonts/SpaceComics.ttf' %}");
+    }
+
+    @font-face {
+        font-family: textfont;
+        src: url("{% static 'fonts/AUBREY1__.TTF' %}");
+    }
+    @font-face {
+        font-family: bodyFont;
+        src: url("{% static 'fonts/Times New Romance.ttf' %}");
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+        width: 100%;
+    }
+
+    .logo {
+        position: absolute;
+        top: 5px; /* Move it slightly higher */
+        left: 5%; /* Move it a little to the right */
+        z-index: 10;
+        transform: translateX(-15px) translateY(-40px); /* Adjust positioning slightly to the right and top */
+        width: 100%; /* Increase the size by 50%, adjust as needed */
+    }
+    
+    .logo img {
+        width: 100%; /* Make sure the image resizes properly with the container size */
+        height: auto;
+    }
+    
+
+    .container {
+        display: flex;
+        width: 100%;
+        height: 95%;
+    }
+
+    .main-content {
+        bottom: 20%;
+        flex: 1.5;
+        background-color: #c59bbb;
+        border-radius: 25px;
+        margin-right: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .sidebar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .box-bottom {
+        background-color: #604568;
+        border-radius: 25px;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .team-label {
+        font-family: bodyFont;
+        font-size: 1.2em;
+        color: white;
+        margin-bottom: 5px;
+    }
+    
+    .team-members {
+        display: flex;
+        justify-content: space-between; /* Distributes team members evenly */
+        gap: 20px; /* Adds space between team members */
+        width: 80%; /* Ensures the container takes up a decent amount of space */
+        max-width: 900px; /* Max width to avoid stretching on large screens */
+        text-align: center;
+    }
+    
+    .team-member {
+        max-width: 200px; /* Limits the width of each team member box */
+        text-align: center;
+    }
+    
+    .team-image {
+        width: 100px; /* Fixed size for the images */
+        height: 100px; /* Ensures circular images */
+        border-radius: 50%; /* Makes the images circular */
+        object-fit: cover; /* Maintains image aspect ratio */
+        margin-bottom: 5px;
+        border: 3px solid white; /* Optional: Adds white border around images */
+    }
+    
+    .team-name {
+        font-family: bodyFont;
+        font-size: 1.2em;
+        color: white;
+        margin-bottom: 5px; /* Adds space below the name */
+    }
+           
+    .quiz-image {
+        width: 140px; /* Adjust the size of the image */
+        height: auto;
+        background: none;
+        border: none; /* Ensure no border */
+        position: absolute; /* Enables precise positioning */
+        bottom: 0px; /* Place at the bottom of the container */
+        right: 8px; /* Place near the right edge of the container */
+        pointer-events: none; /* Ensure the image is non-interactive if needed */
+    }
+    
+    
+    .quiz-prompt {
+        margin-top: 20px;
+        text-align: left; /* Aligns the text to the left */
+        color: white;
+        position: relative; /* Ensures the .quiz-image is positioned relative to this container */
+        padding: 20px;
+    }
+    
+    .quiz-text {
+        font-size: 1.3em;
+        font-family: bodyfont;
+        margin-right: 150px; /* Creates space for the image on the right */
+    }
+    
+    .quiz-link {
+        color: #ffcc00;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .quiz-link:hover {
+        text-decoration: underline;
+    }
+    .box-top {
+        border-radius: 25px;
+        height: 10%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .box.middle {
+        background-color: #c59bbb;
+        height: 50%;
+        border-radius: 0 25px 25px 0;
+        margin-left: -20px;
+        position: relative;
+        z-index: 2;
+    }
+    .sign-in-btn,
+    .log-in-btn {
+        text-decoration: none;
+        padding: 15px 60px; /* Increase padding horizontally to make the buttons wider */
+        border-radius: 20px; /* Round the corners of the buttons */
+        color: white;
+        background-color: #604568; /* Keep the background color */
+        font-family: bodyfont;
+        font-size: 20px;
+        transition: background-color 0.3s ease;
+        border: 2px solid white; /* Add white border */
+        display: inline-block; /* Keep the buttons inline */
+        text-align: center; /* Center the text */
+        min-width: 150px; /* Minimum width to ensure the buttons are wide enough */
+    }
+    
+    .sign-in-btn {
+        margin-right: 5px; /* Optional: Adds space between the buttons */
+    }
+    
+    .log-in-btn {
+        margin-left: 5px; /* Optional: Adds space between the buttons */
+    }
+    
+    .sign-in-btn:hover{
+        text-decoration: none;
+        background-color: #7a4a6a;
+        color: #fff;
+        box-shadow: 0 0 10px 3px #fff; /* Glowing effect */
+    }
+    .log-in-btn:hover {
+        text-decoration: none;
+        background-color: #7a4a6a;
+        color: #fff;
+        box-shadow: 0 0 10px 3px #fff; /* Glowing effect */
+    }
+
+    .main-heading {
+        max-width: 500px;
+        text-align: center;
+        font-family: myFont;
+        font-size: 35px;
+        color: #80567e;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7), 
+                     -2px -2px 4px rgba(255, 255, 255, 0.7),
+                     2px -2px 4px rgba(255, 255, 255, 0.7),
+                     -2px 2px 4px rgba(255, 255, 255, 0.7);
+        padding-top: 60px; /* Adjust the value to move the text down */
+        line-height: 1.0;  /* Adjust line height to control spacing */
+    }
+    
+    
+    .main-heading2 {
+        max-width: 500px;
+        text-align: center;
+        font-family: myFont;
+        font-size: 2em;
+        font-weight: bold;
+        color: #80567e;
+    }
+
+    .description {
+        max-width: 400px;
+        margin: 0 auto;
+        text-align: center;
+        font-family: bodyfont;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .main-content img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 15px;
+        transform: scale(1.2); /* Increase size by 10%, adjust as needed */
+    }
+    
+</style>
+{% endblock %}

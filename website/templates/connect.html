@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include 'navbar.html' %}
+
+<h1>Discover Your MBTI Tribe</h1>
+
+<!-- Search Form for MBTI filter -->
+ <div class="top">
+  <form method="get" action="{% url 'connect' %}">
+    <div class="form-group">
+      <label for="mbti_type">Filter by MBTI Type</label>
+      <select name="mbti_type" id="mbti_type" class="form-control">
+        <option value="">All MBTI Types</option>
+        {% for mbti in mbti_types %}
+          <option value="{{ mbti.mbti_type }}" {% if mbti.mbti_type == request.GET.mbti_type %}selected{% endif %}>
+            {{ mbti.mbti_type }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+</div>
+
+<!-- User Profile Cards -->
+<div class="profile-card-container">
+  {% for user in users %}
+  <div class="profile-card">
+    <div class="profile-card-header">
+        <img src="{% static 'avatars/' %}{{ user.mbti_type.mbti_type }}.jpg" alt="{{ user.username }}" class="profile-img">
+    </div>
+    <div class="profile-card-body">
+      <h4>{{ user.username }}</h4>
+      <p class="mbti-type">{{ user.mbti_type.mbti_type }}</p>
+      <a href="{% url 'other_dashboard' user_id=user.user_id %}" class="btn">View Dashboard</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<style>
+body {
+  background: #e9ecef; /* Soft lavender gradient background */
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 40px 20px; /* Added padding for breathing room */
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+    background: #4a4a4a;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 100px; /* Matches the current spacing from the top */
+    gap: 50px;
+}
+
+/* Container for profile cards */
+.profile-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px; /* Uniform spacing between cards */
+  justify-content: center; /* Center-align cards */
+  margin-top: 20px;
+}
+
+/* Individual profile card */
+.profile-card {
+  flex: 1 1 calc(33.333% - 40px); /* Adjust width for three per row with better spacing */
+  max-width: 250px; /* Restrict max width */
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Classy shadow */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e1dff1; /* Subtle border for structure */
+}
+
+.profile-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Slightly pronounced shadow on hover */
+}
+
+/* Card header with image */
+.profile-card-header {
+  background: #aba1ad; /* Lavender gradient header */
+  padding: 30px 20px;
+  border-color: black;
+}
+
+.profile-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card body */
+.profile-card-body {
+  padding: 25px 20px;
+}
+
+.profile-card-body h4 {
+  margin: 15px 0 5px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #4a4a4a;
+}
+
+.profile-card-body .mbti-type {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6d6d6d;
+  margin-bottom: 10px;
+}
+
+.profile-card-body .btn {
+  display: inline-block;
+  margin-top: 15px;
+  background: #604568;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.profile-card-body .btn:hover {
+  background: #c59bbb;
+  transform: translateY(-3px); /* Lift button on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .profile-card {
+    flex: 1 1 calc(50% - 40px); /* Two cards per row for tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-card {
+    flex: 1 1 100%; /* One card per row for mobile */
+    margin-bottom: 20px;
+  }
+}
+/* Style for the Filter and Search Buttons */
+form {
+  display: flex; /* Align form elements in a row */
+  align-items: center; /* Vertically center align the elements */
+  gap: 15px; /* Add spacing between the dropdown and the button */
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+form .form-group {
+  flex: 1; /* Allow the dropdown to take the available space */
+  margin: 0; /* Remove additional margins */
+}
+
+form .form-group select {
+  width: 100%; /* Ensure the dropdown takes full width */
+  padding: 12px 20px; /* Spacious padding */
+}
+
+form .btn {
+  background: #604568; /* Lavender gradient */
+  color: white;
+  border: none;
+  padding: 12px 20px; /* Spacious padding */
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 25px; /* Rounded corners for elegance */
+  text-transform: uppercase;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  width: 10%; /* Matches width of input elements */
+  margin-top: 30px; /* Space above the button */
+}
+
+form .btn:hover {
+  background: #c59bbb; /* Darker hover effect */
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Optional: Form field alignment for consistency */
+form .form-group label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a4a4a;
+  margin-bottom: 8px;
+}
+
+form .form-group select {
+  border: 1px solid #e1dff1;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  background: white;
+  color: #4a4a4a;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+  transition: border-color 0.3s ease;
+}
+
+form .form-group select:focus {
+  border-color: #9575cd; /* Highlight border on focus */
+  outline: none;
+}
+
+</style>
+    
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container mt-5">
+  <h1 class="mb-4">Top Picks for {{ user.username }}</h1>
+
+  <!-- Top Picks for Movies -->
+  <h2 class="mt-4">Movies</h2>
+  <div class="row">
+    {% for movie in top_movies %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="{% static movie.image %}" class="card-img-top" alt="{{ movie.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p class="card-text">{{ movie.description }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+                           <!-- Add to Watchlist Form -->
+                           <form action="{% url 'add_to_watchlist' movie.movie_id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary w-100">Add to Watchlist</button>
+                        </form>
+    
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No movie recommendations available.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Top Picks for Books -->
+  <h2 class="mt-4">Books</h2>
+  <div class="row">
+    {% for book in top_books %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="{% static book.image %}" class="card-img-top" alt="{{ book.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text">{{ book.description }}</p>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+            
+            {% if request.user.is_authenticated %}
+            {% with readlist=request.user.readlist %}
+                {% if readlist and book in readlist.books.all %}
+                    <form action="{% url 'remove_from_readlist' book.book_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">Remove from Readlist</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'add_to_readlist' book.book_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100">Add to Readlist</button>
+                    </form>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No book recommendations available.</p>
+    {% endfor %}
+  </div>
+</div>
+<style>
+    @font-face {
+        font-family: myFont;
+        src: url("{% static 'fonts/SpaceComics.ttf' %}");
+    }
+
+    @font-face {
+        font-family: textfont;
+        src: url("{% static 'fonts/AUBREY1__.TTF' %}");
+    }
+    @font-face {
+        font-family: bodyFont;
+        src: url("{% static 'fonts/Times New Romance.ttf' %}");
+    }
+    body {
+        background-color: #e9ecef;
+    }
+
+    .welcome-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 100px;
+        margin-bottom: 50px;
+    }
+
+    .welcome-text {
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+        font-size: 2.5rem;
+        color: #343a40;
+    }
+
+    .card {
+        width: 80%;
+        height: 100%;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        box-shadow: 0 0 8px rgb(180, 178, 178);
+        margin-bottom: 10%;
+    }
+    .card-img-top{
+        height: 200px; 
+        width: auto;
+        object-fit: cover;
+        margin-top: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-title {
+        color: #343a40;
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    .card-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        background-color: #80567e;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        transition: background-color 0.3s ease-in-out;
+        width: auto;
+    }
+
+    .btn-primary:hover {
+        background-color: #c59bbb;
+    }
+
+    .btn {
+        margin-right: 5px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .btn:first-of-type {
+        margin-left: 0;
+    }
+
+    .alert-success {
+        background-color: #c59bbb;
+        color: #604568;
+        border: 1px solid #c59bbb;
+    }
+</style>
+
+{% endblock %}

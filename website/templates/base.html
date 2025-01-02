@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}MBTI-Based Recommendations{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">  <!-- Link to external CSS if preferred -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Custom Fonts -->
+    <style>
+        @font-face {
+            font-family: myFont;
+            src: url("{% static 'fonts/SpaceComics.ttf' %}");
+        }
+
+        @font-face {
+            font-family: textfont;
+            src: url("{% static 'fonts/AUBREY1__.TTF' %}");
+        }
+
+        @font-face {
+            font-family: bodyFont;
+            src: url("{% static 'fonts/Times New Romance.ttf' %}");
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .container {
+            flex-grow: 1;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .sidebar {
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% block content %}
+    <div class="container">
+        <p>Default content here.</p>
+        {% endblock %}
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
