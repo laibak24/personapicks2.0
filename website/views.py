@@ -704,22 +704,20 @@ def other_dashboard(request, user_id):
     if user_mbti and selected_user_mbti:
         score = compare_mbti_types(user_mbti, selected_user_mbti)
 
-        # Use raw SQL to insert or update compatibility score
-        with connection.cursor() as cursor:
-            # Update or insert the compatibility score (request.user -> selected_user)
-            cursor.execute("""
-                INSERT INTO website_compatibilityscore (user_id, compared_user_id, score)
-                VALUES (%s, %s, %s)
-                ON DUPLICATE KEY UPDATE score = VALUES(score)
-            """, [request.user.user_id, selected_user.user_id, score])
+        # Use the ORM to insert or update the compatibility score
+        # For request.user -> selected_user
+        CompatibilityScore.objects.update_or_create(
+            user=request.user,
+            compared_user=selected_user,
+            defaults={'score': score}
+        )
 
-            # Update or insert the reverse compatibility score (selected_user -> request.user)
-            cursor.execute("""
-                INSERT INTO website_compatibilityscore (user_id, compared_user_id, score)
-                VALUES (%s, %s, %s)
-                ON DUPLICATE KEY UPDATE score = VALUES(score)
-            """, [selected_user.user_id, request.user.user_id, score])
-
+        # For selected_user -> request.user (reverse compatibility score)
+        CompatibilityScore.objects.update_or_create(
+            user=selected_user,
+            compared_user=request.user,
+            defaults={'score': score}
+        )
     # Calculate followers, following, and fetch lists
     followers_count = selected_user.followers.count()
     following_count = selected_user.following.count()
