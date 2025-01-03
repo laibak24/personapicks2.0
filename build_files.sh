@@ -1,4 +1,2 @@
-pip install -r requirements.txt
-# Environment variable for settings module
-export DJANGO_SETTINGS_MODULE=personapicks.settings
-python manage.py collectstatic
+pip install -r requirements.txt 
+python3.9 manage.py collectstatic --noinput
