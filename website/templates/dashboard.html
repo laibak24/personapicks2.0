@@ -548,15 +548,14 @@ h5{
     <p>No personalized lists created yet.</p>
     {% endfor %}
 </div>
-
 </div>
 <!-- Clock Section -->
-    <div class="card clock-card">
-        <h2 id="clock">--:--</h2>
-        <p id="date">Loading date...</p>
-        <div class="user-avatar">
-            <img src="{% static 'avatars/' %}{{ user.mbti_type.mbti_type }}.jpg" alt="{{ user.username }}" class="mbti-avatar">
-        </div>
+<div class="card clock-card">
+    <h2 id="clock">--:--</h2>
+    <p id="date">Loading date...</p>
+    <div class="user-avatar">
+        <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="mbti-avatar">
+    </div>
 </div>
 <script>
     function updateClock() {
