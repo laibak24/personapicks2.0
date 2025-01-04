@@ -1,3 +1,5 @@
+ed Template (Excluding Admin Account):
+
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
@@ -6,7 +8,7 @@
 <h1>Discover Your MBTI Tribe</h1>
 
 <!-- Search Form for MBTI filter -->
- <div class="top">
+<div class="top">
   <form method="get" action="{% url 'connect' %}">
     <div class="form-group">
       <label for="mbti_type">Filter by MBTI Type</label>
@@ -26,19 +28,21 @@
 <!-- User Profile Cards -->
 <div class="profile-card-container">
   {% for user in users %}
-  <div class="profile-card">
-    <div class="profile-card-header">
-        <img src="{% static 'avatars/' %}{{ user.mbti_type.mbti_type }}.jpg" alt="{{ user.username }}" class="profile-img">
-    </div>
-    <div class="profile-card-body">
-      <h4>{{ user.username }}</h4>
-      <p class="mbti-type">{{ user.mbti_type.mbti_type }}</p>
-      <a href="{% url 'other_dashboard' user_id=user.user_id %}" class="btn">View Dashboard</a>
-    </div>
-  </div>
+    {% if user.username != 'admin' %}
+      <div class="profile-card">
+        <div class="profile-card-header">
+            <img src="{% static 'avatars/' %}{{ user.mbti_type.mbti_type|lower }}.jpg" alt="{{ user.username }}" class="profile-img">
+        </div>
+        <div class="profile-card-body">
+          <h4>{{ user.username }}</h4>
+          <p class="mbti-type">{{ user.mbti_type.mbti_type }}</p>
+          <a href="{% url 'other_dashboard' user_id=user.user_id %}" class="btn">View Dashboard</a>
+        </div>
+      </div>
+    {% endif %}
   {% endfor %}
-</div>
-
+    </div>
+    
 <style>
 body {
   background: #e9ecef; /* Soft lavender gradient background */

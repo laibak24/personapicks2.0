@@ -554,9 +554,11 @@ h5{
     <h2 id="clock">--:--</h2>
     <p id="date">Loading date...</p>
     <div class="user-avatar">
-        <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="mbti-avatar">
+        <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'avatars/' %}{{ user.mbti_type.name|lower }}.jpg{% endif %}" 
+             alt="{{ user.username }}" class="mbti-avatar">
     </div>
 </div>
+
 <script>
     function updateClock() {
         const now = new Date();
