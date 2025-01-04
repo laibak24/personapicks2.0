@@ -11,7 +11,7 @@
         
         <!-- User Avatar and Bio -->
         <div class="user-avatar">
-            <img src="{% static 'avatars/' %}{{ selected_user.mbti_type.mbti_type|default:'default' }}.jpg" alt="{{ selected_user.username }}" class="mbti-avatar">
+            <img src="{% static 'avatars/' %}{{ user.mbti_type.mbti_type|lower }}.jpg" alt="{{ user.username }}" class="profile-img">
         </div>
         <div class="user-bio">
             <h4>About {{ selected_user.username }}</h4>
