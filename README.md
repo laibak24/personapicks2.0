@@ -1,6 +1,6 @@
 # PersonaPicks
 
-PersonaPicks is a personalized movie and book tracker designed around the MBTI personality framework. This Django-based project provides recommendations for movies and books based on your MBTI type, allows you to add them to watch/read lists, and lets you create personalized lists. You can also explore profiles of other users based on their MBTI types and follow them.
+PersonaPicks is a personalized movie and book tracker designed around the MBTI personality framework. This Django-based project provides recommendations for movies and books based on your MBTI type, allows you to add them to watch/read lists, and lets you create personalized lists. You can also explore profiles of other users based on their MBTI types, follow them, and view compatibility scores.
 
 ## Features
 
@@ -8,6 +8,7 @@ PersonaPicks is a personalized movie and book tracker designed around the MBTI p
 - **Watchlist and Readlist Management**: Add and manage movies and books you wish to watch or read.
 - **Custom Lists**: Create and manage personalized lists for books and movies.
 - **Social Features**: Browse other user profiles by MBTI type, follow them, and check compatibility scores.
+- **Compatibility Score**: View compatibility scores between users based on MBTI types.
 - **Activity Tracking**: Keep track of your activity, including list updates and connections.
 - **Feedback System**: Share feedback on recommendations and improve the system.
 
@@ -16,12 +17,14 @@ PersonaPicks is a personalized movie and book tracker designed around the MBTI p
 Follow these steps to set up the project locally:
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/laibak24/PersonaPicks
    cd personapicks
    ```
 
 2. **Create a Virtual Environment**:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
@@ -29,24 +32,35 @@ Follow these steps to set up the project locally:
 
 3. **Install Dependencies**:
    Install the required packages from the `requirements.txt` file:
+
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Set Up the Database**:
-   Apply the migrations to set up the database:
+4. **Set Up Environment Variables**:
+   Create a `.env` file in the root directory and add your database credentials:
+
+   ```plaintext
+   DATABASE_URL=postgresql://username:password@hostname:port/database_name
+   SECRET_KEY=your_secret_key
+   DEBUG=True
+   ```
+
+5. **Apply Database Migrations**:
+
    ```bash
    python manage.py makemigrations
    python manage.py migrate
    ```
 
-5. **Run the Development Server**:
+6. **Run the Development Server**:
    Start the Django development server:
+
    ```bash
    python manage.py runserver
    ```
 
-6. **Access the Application**:
+7. **Access the Application**:
    Open your browser and navigate to `http://127.0.0.1:8000/` to start using PersonaPicks.
 
 ## Usage
