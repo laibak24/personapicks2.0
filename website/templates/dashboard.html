@@ -7,17 +7,17 @@
 <style>
     @font-face {
         font-family: myFont;
-        src: url("static/fonts/SpaceComics.ttf");
+        src: url("{% static 'fonts/SpaceComics.ttf' %}");
     }
 
     @font-face {
         font-family: textfont;
-        src: url("static/fonts/AUBREY1__.TTF");
+        src: url("{% static 'fonts/AUBREY1__.TTF' %}");
     }
 
     @font-face {
         font-family: bodyFont;
-        src: url("static/fonts/Times New Romance.ttf");
+        src: url("{% static 'fonts/Times New Romance.ttf' %}");
     }
 
     body {
@@ -139,11 +139,38 @@
     .bio-card {
         text-align: center;
     }
+    /* Styling for the clock-card */
     .clock-card {
-        text-align: center;
-        height: 50%;
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin: 0 auto; /* Center align the clock card */
     }
-    #clock {
+    
+    /* User Avatar Styling */
+    .user-avatar {
+      width: 120px; /* Adjust width of avatar box */
+      height: 120px; /* Adjust height to match width for a circle */
+      margin: 0 auto; /* Center align the avatar container */
+      display: flex;
+      justify-content: center; /* Center the image horizontally */
+      align-items: center; /* Center the image vertically */
+      background-color: #f0f0f0; /* Light background color for avatar box */
+      border-radius: 50%; /* Make the container round */
+      overflow: hidden; /* Ensure the image fits within the circle */
+      margin-top: 20px; /* Add top margin for spacing */
+    }
+    
+    .profile-img {
+      width: 100%; /* Make the image fill the entire container */
+      height: 100%; /* Make the image fill the entire container */
+      object-fit: cover; /* Ensure the image maintains aspect ratio and covers the container */
+      border-radius: 50%; /* Round the image edges to fit the circle */
+    }
+       #clock {
         font-size: 48px;
         margin: 0;
         color: #604568;
