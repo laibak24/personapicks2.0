@@ -19,8 +19,8 @@ Follow these steps to set up the project locally:
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/laibak24/PersonaPicks
-   cd personapicks
+   git clone https://github.com/laibak24/personapicks2.0
+   cd personapicks2.0
    ```
 
 2. **Create a Virtual Environment**:
