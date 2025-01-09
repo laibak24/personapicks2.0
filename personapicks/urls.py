@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.shortcuts import render
 
 urlpatterns = [
     path('admin/',admin.site.urls),
@@ -26,3 +27,12 @@ urlpatterns = [
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+def error_404(request, exception):
+    return render(request, 'error.html', status=404)
+
+def error_500(request):
+    return render(request, 'error.html', status=500)
+
+handler404 = 'personapicks.urls.error_404'
+handler500 = 'personapicks.urls.error_500'
