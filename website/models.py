@@ -24,7 +24,7 @@ class User(AbstractUser):
     mbti_type = models.ForeignKey(MBTIType, on_delete=models.SET_NULL, null=True)
     avatar = models.ImageField(upload_to='avatars/', default="avatar.svg", null=True)
     # Add this to the User model
-    bio = models.TextField(blank=True, default="Tell others about yourself!")
+    bio = models.TextField(blank=True, default="")
     # Follow feature
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers', blank=True)
 
